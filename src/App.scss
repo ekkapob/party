@@ -1,0 +1,65 @@
+$bg: #202735;
+$white: #e4e4e4;
+$grey: #b7b7b7;
+$primary-orange: #FFAE42;
+$secondary-orange: #e29a3a;
+
+body {
+  background-color: $bg;
+  color: $white;
+}
+
+.small-gutters {
+  margin-right: -6px;
+  margin-left: -6px;
+  > .col,
+  > [class*="col-"] {
+    padding-right: 6px;
+    padding-left: 6px;
+  }
+}
+
+h1 {
+  font-size: 22px;
+}
+
+.btn-primary {
+  background-color: $primary-orange;
+  border-color: $primary-orange;
+  &:focus,
+  &:hover,
+  &:not(:disabled):not(.disabled):active {
+    background-color: $secondary-orange;
+    border-color: $secondary-orange;
+  }
+}
+
+.form-control {
+  &::-webkit-input-placeholder {
+    color: $grey;
+  }
+  &:-ms-input-placeholder {
+    color: $grey;
+  }
+  &::placeholder {
+    color: $grey;
+  }
+}
+
+.form-group {
+  margin-bottom: 0.75em;
+  input {
+    border: none;
+    border-bottom: 1px solid $grey;
+    border-radius: 0;
+    padding: 0;
+  }
+  .form-control {
+    &:focus {
+      box-shadow: none;
+      border-bottom: 1px solid $primary-orange;
+    }
+  }
+  
+}
+

@@ -1,0 +1,19 @@
+$grey: #e6e6e6;
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 65px;
+  border-bottom: 1px solid $grey;
+  img {
+    height: 50px;
+  }
+  .back-btn {
+    position: absolute;
+    left: 1.5em;
+    img {
+      height: 1.5em;
+    }
+  }
+}

@@ -1,26 +1,48 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+
+import PrivateRoute from './routes/PrivateRoute';
+import Signin from './components/Signin';
+import Signup from './components/Signup';
+import Parties from './components/parties/Parties';
+import Party from './components/parties/Party';
+import NewParty from './components/parties/NewParty';
+import withContext from './components/withContext';
+
+import './App.scss';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/signin">
+          <Signin/>
+        </Route>
+        <PrivateRoute path="/xx">
+          <Parties/>
+        </PrivateRoute>
+        <Route path="/signup">
+          <Signup/>
+        </Route>
+        <Route exact path="/parties/new">
+          <NewParty/>
+        </Route>
+        <Route path="/parties/:id">
+          <Party/>
+        </Route>
+        <Route path="/parties">
+          <Parties/>
+        </Route>
+        <Route path="/">
+          <Parties/>
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
-export default App;
+export default withContext(App);
