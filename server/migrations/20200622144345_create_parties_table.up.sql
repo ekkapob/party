@@ -1,0 +1,13 @@
+CREATE TABLE parties (
+  id          SERIAL NOT NULL PRIMARY KEY,
+  title       TEXT NOT NULL,
+  account_id  INT REFERENCES accounts (id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL,
+  members     INT NOT NULL DEFAULT 10,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON parties
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
