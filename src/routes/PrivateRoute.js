@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route, Redirect } from "react-router-dom";
+import { CredentialContext } from './../context/credential';
 
 function PrivateRoute({ children, ...props }) {
-  console.log('------------------');
-  console.log(props);
-
-  const authenticated = true;
+  const [credential] = useContext(CredentialContext);
 
   return (
     <Route
@@ -13,7 +11,7 @@ function PrivateRoute({ children, ...props }) {
 
       render={
         ({ location }) => (
-          authenticated ?
+          credential.email !== '' ?
             children :
             <Redirect to={{
               pathname: '/signin',

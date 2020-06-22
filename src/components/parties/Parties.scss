@@ -1,4 +1,6 @@
 $black: #101010;
+$green: #3fa532;
+$navy: #212121;
 
 .parties {
   .party {
@@ -11,6 +13,8 @@ $black: #101010;
     }
     .title {
       font-weight: 600;
+      height: 60px;
+      overflow: auto;
     }
     hr {
       margin: 0;
@@ -24,7 +28,35 @@ $black: #101010;
       }
     }
   }
+
   a:hover {
     text-decoration: none;
+  }
+
+  a {
+    .new-party-btn,
+    &:hover.new-party-btn {
+      color: white;
+    }
+  }
+  .new-party-btn {
+    position: fixed;
+    right: 2em;
+    bottom: 2em;
+    width: 70px;
+    height: 70px;
+    background-color: $green;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 3px 5px $navy;
+    cursor: pointer;
+    div {
+      font-size: 3em;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-55%);
+    }
   }
 }

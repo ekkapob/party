@@ -1,23 +1,80 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { Link, useHistory } from 'react-router-dom';
+import { CredentialContext } from './../context/credential';
 import Header from './Header.js';
+import { isValidEmail } from './../helpers/email';
 
 import './Signup.scss';
 
 function Signup(props) {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [passwordConfirmation, setPasswordComfirmation] = useState();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordComfirmation] = useState('');
   const [consent, setConsent] = useState(false);
   const [subscription, setSubscription] = useState(false);
   const [errors, setErrors] = useState([]);
   const signupEmailRef = useRef();
+  const history = useHistory();
+
+  const [credential, dispatchCredential] = useContext(CredentialContext);
 
   useEffect(() => {
+    if (credential.email !== '') {
+      history.replace('/parties');
+      return;
+    }
     signupEmailRef.current.focus();
-  }, []);
+  }, [credential]);
 
   const onConfirmClicked = () => {
+    let newErrors = [];
+    setErrors(newErrors);
+
+    if (email.trim().length === 0 || !isValidEmail(email)) {
+      newErrors = [...newErrors, 'กรุณาใส่อีเมล์ที่ถูกต้อง'];
+      setErrors(newErrors);
+    }
+    if (
+      password.trim().length === 0 ||
+      password !== passwordConfirmation
+    ) {
+      newErrors = [...newErrors, 'รหัสผ่านไม่ถูกต้อง'];
+      setErrors(newErrors);
+    }
+
+    if (newErrors.length > 0) return;
+
+    axios.post('/signup', {
+      email,
+      password, password_confirmation: passwordConfirmation,
+      consent, subscription
+    })
+      .then(resp => signin(email, password))
+      .catch(err => {
+        const { status } = err.response;
+        if (status === 403) return setErrors(['อีเมล์นี้ได้ถูกลงทะเบียนแล้ว'])
+      });
+  };
+
+  const signin = (email, password) => {
+    axios.post('/signin', { email, password })
+      .then(resp => {
+        const {
+          account_id: accountId,
+          email,
+          access_token: accessToken,
+          refresh_token: refreshToken,
+          exp,
+        } = resp.data;
+
+        dispatchCredential({
+          type: 'SET_CREDENTIAL',
+          payload: { accountId, email, accessToken, refreshToken, exp },
+        });
+        history.replace('/parties');
+      })
+      .catch(err => history.replace('/signin'));
   };
 
   return (
@@ -69,7 +126,7 @@ function Signup(props) {
           </div>
           {
             errors.map((error, index) => (
-              <div key={index}>{error}</div>
+              <div key={index} className="error text-center">{error}</div>
             ))
           }
           <button className="btn btn-primary mt-2 p-2"

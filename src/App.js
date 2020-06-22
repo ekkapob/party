@@ -22,16 +22,13 @@ function App() {
         <Route path="/signin">
           <Signin/>
         </Route>
-        <PrivateRoute path="/xx">
-          <Parties/>
-        </PrivateRoute>
         <Route path="/signup">
           <Signup/>
         </Route>
-        <Route exact path="/parties/new">
+        <PrivateRoute exact path="/parties/new">
           <NewParty/>
-        </Route>
-        <Route path="/parties/:id">
+        </PrivateRoute>
+        <Route exact path="/parties/:id">
           <Party/>
         </Route>
         <Route path="/parties">

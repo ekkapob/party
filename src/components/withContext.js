@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { UserProfileContextProvider } from './../context/userProfile';
+import { CredentialContextProvider } from './../context/credential';
 
 function withContext(WrappedComponent) {
   return props => {
     return (
-      <UserProfileContextProvider>
+      <CredentialContextProvider>
 
         <WrappedComponent {...props}/>
 
-      </UserProfileContextProvider>
+      </CredentialContextProvider>
     );
   };
 }

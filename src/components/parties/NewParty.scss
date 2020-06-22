@@ -1,9 +1,19 @@
 $black: #101010;
+$red: #fd5454;
+$light-yellow: #fdc57b;
 
 .new-party {
   .card {
     color: $black;
     padding: 1em;
+  }
+  .error {
+    color: $red;
+    font-size: 14px;
+  }
+  .disabled {
+    background-color: $light-yellow;
+    border-color: $light-yellow;
   }
 }
 
