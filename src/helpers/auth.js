@@ -1,6 +1,3 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { CredentialContext } from './../context/credential';
-
 import axios from 'axios';
 
 const OFFSET_SECONDS = 15;
@@ -8,9 +5,12 @@ const OFFSET_SECONDS = 15;
 export const refreshToken = async (credential) => {
   const { refreshToken } = credential;
   try {
-    const resp = await axios.post('/refresh_token', {
-      refresh_token: refreshToken,
-    });
+    const resp = await axios.post(
+      `${process.env.REACT_APP_API_V1}/refresh_token`,
+      {
+        refresh_token: refreshToken,
+      }
+    );
     return resp.data;
   } catch (err) {
     throw "invalid token";

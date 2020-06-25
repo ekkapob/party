@@ -20,7 +20,8 @@ function Party(props) {
   const [error, setError] = useState();
 
   useEffect(() => {
-    axios.get(`/parties/${id}`)
+
+    axios.get(`${process.env.REACT_APP_API_V1}/parties/${id}`)
       .then(resp => {
         const {
           title,
@@ -44,14 +45,14 @@ function Party(props) {
       return;
     }
 
-    axios.post(`/parties/${id}/join`, null, {
-      headers: { Authorization: `Bearer ${await getTokenOrReSignin()}` },
-    })
+    axios.post(`${process.env.REACT_APP_API_V1}/parties/${id}/join`, null,
+      {
+        headers: { Authorization: `Bearer ${await getTokenOrReSignin()}` },
+      })
       .then(resp => setMemberIds([...memberIds, credential.accountId]))
       .catch(err => setError('ไม่สามารถเข้าร่วมปาร์ตี้ได้ กรุณาลองใหม่อีกครั้ง'));
   };
 
-  
   const onLeaveClicked = async () => {
     setError();
     if (credential.email === '') {
@@ -59,7 +60,7 @@ function Party(props) {
       return;
     }
 
-    axios.post(`/parties/${id}/leave`, null, {
+    axios.post(`${process.env.REACT_APP_API_V1}/parties/${id}/leave`, null, {
       headers: { Authorization: `Bearer ${await getTokenOrReSignin()}` },
     })
       .then(resp => setMemberIds(

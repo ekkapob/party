@@ -36,7 +36,7 @@ function Parties(props) {
   const fetchParties = () => {
     if (!hasMoreData) return;
 
-    axios.get(`/parties?page=${page}`)
+    axios.get(`${process.env.REACT_APP_API_V1}/parties?page=${page}`)
       .then(resp => {
         const {
           parties: resp_parties,

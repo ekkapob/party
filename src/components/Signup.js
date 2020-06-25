@@ -45,7 +45,7 @@ function Signup(props) {
 
     if (newErrors.length > 0) return;
 
-    axios.post('/signup', {
+    axios.post(`${process.env.REACT_APP_API_V1}/signup`, {
       email,
       password, password_confirmation: passwordConfirmation,
       consent, subscription
@@ -58,7 +58,7 @@ function Signup(props) {
   };
 
   const signin = (email, password) => {
-    axios.post('/signin', { email, password })
+    axios.post(`${process.env.REACT_APP_API_V1}/signin`, { email, password })
       .then(resp => {
         const {
           account_id: accountId,

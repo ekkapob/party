@@ -37,15 +37,17 @@ func NewDB() *pgx.Conn {
 func NewRouter(c cxt.Context) *mux.Router {
 	r := mux.NewRouter()
 
-	r.HandleFunc("/parties/{id:[0-9]+}", handlers.Party(c)).Methods("GET")
-	r.HandleFunc("/parties/{id:[0-9]+}/join", handlers.JoinParty(c)).Methods("POST")
-	r.HandleFunc("/parties/{id:[0-9]+}/leave", handlers.LeaveParty(c)).Methods("POST")
-	r.HandleFunc("/parties", handlers.CreateParty(c)).Methods("POST")
-	r.HandleFunc("/parties", handlers.Parties(c)).Methods("GET")
+	s := r.PathPrefix("/api/v1").Subrouter()
 
-	r.HandleFunc("/signin", handlers.Signin(c)).Methods("POST")
-	r.HandleFunc("/signup", handlers.Signup(c)).Methods("POST")
-	r.HandleFunc("/refresh_token", handlers.RefreshToken(c)).Methods("POST")
+	s.HandleFunc("/parties/{id:[0-9]+}", handlers.Party(c)).Methods("GET")
+	s.HandleFunc("/parties/{id:[0-9]+}/join", handlers.JoinParty(c)).Methods("POST")
+	s.HandleFunc("/parties/{id:[0-9]+}/leave", handlers.LeaveParty(c)).Methods("POST")
+	s.HandleFunc("/parties", handlers.CreateParty(c)).Methods("POST")
+	s.HandleFunc("/parties", handlers.Parties(c)).Methods("GET")
+
+	s.HandleFunc("/signin", handlers.Signin(c)).Methods("POST")
+	s.HandleFunc("/signup", handlers.Signup(c)).Methods("POST")
+	s.HandleFunc("/refresh_token", handlers.RefreshToken(c)).Methods("POST")
 
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

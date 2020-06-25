@@ -34,7 +34,7 @@ function NewParty(props) {
     }
 
     setCreating(true);
-    axios.post(`/parties`, { title, capacity: inputCapacity }, {
+    axios.post(`${process.env.REACT_APP_API_V1}/parties`, { title, capacity: inputCapacity }, {
       headers: { Authorization: `Bearer ${await getTokenOrReSignin()}` },
     })
       .then(resp => history.replace('/parties?new_party_created=true'))

@@ -34,7 +34,7 @@ function Signin(props) {
   const onSigninClicked = () => {
     setError(false);
 
-    axios.post('/signin', { email, password })
+    axios.post(`${process.env.REACT_APP_API_V1}/signin`, { email, password })
       .then(resp => {
         const {
           account_id: accountId,
