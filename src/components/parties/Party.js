@@ -103,6 +103,7 @@ function Party(props) {
         }
         {
           !memberIds.includes(credential.accountId) &&
+          memberIds.length < capacity &&
           <button className="btn btn-primary mt-3" onClick={onJoinClicked}>
             เข้าร่วมปาร์ตี้
           </button>

@@ -75,8 +75,13 @@ func JoinParty(c cxt.Context) http.HandlerFunc {
 		partyID := vars["id"]
 
 		_, err = c.DB.Exec(context.Background(),
-			`INSERT INTO accounts_parties (account_id, party_id)
-			VALUES ($1, $2) ON CONFLICT (account_id, party_id) DO NOTHING
+			`
+			INSERT INTO accounts_parties (account_id, party_id)
+			SELECT $1, $2
+			WHERE 
+				(SELECT SUM(1) FROM accounts_parties WHERE party_id = $2) <
+				(SELECT capacity FROM parties WHERE id = $2)
+			ON CONFLICT (account_id, party_id) DO NOTHING;
 			`,
 			accountID, partyID,
 		)
