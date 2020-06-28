@@ -1,5 +1,5 @@
 ACCESS_SECRET ?= 4747ngxKqYEPWhdxdPkwjLtLYVPP4zMP
-DATABASE ?= postgres://postgres:uazkRErpBfAt8ufj7S7exUr9bYMSE2se@localhost:5433/party_development?sslmode=disable
+DATABASE ?= postgres://postgres:uazkRErpBfAt8ufj7S7exUr9bYMSE2se@db:5432/party_development?sslmode=disable
 PORT ?= :4100
 
 dev:
@@ -18,4 +18,4 @@ migrate-force:
 	migrate -path migrations -database $(DATABASE) force $(version)
 
 psql:
-	psql -h localhost -p 5433 -U postgres
+	psql -h localhost -p 5432 -U postgres

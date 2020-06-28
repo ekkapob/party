@@ -2,11 +2,23 @@ version: '3.1'
 
 services:
 
+  api:
+    build: .
+    container_name: party_api
+    restart: always
+    depends_on:
+      - db
+    ports:
+      -  4100:4100
+    links:
+      - db
+
   db:
     image: postgres:alpine
+    container_name: party_db
     restart: always
     ports:
-      - "5433:5432"
+      - 5433:5432
     environment:
       POSTGRES_PASSWORD: uazkRErpBfAt8ufj7S7exUr9bYMSE2se
     volumes:
