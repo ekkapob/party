@@ -98,7 +98,7 @@ function Party(props) {
           <div className="ml-2">{memberIds.length}/{capacity} คน</div>
         </div>
         {
-          error && 
+          error &&
           <div className="error text-center">{ error }</div>
         }
         {

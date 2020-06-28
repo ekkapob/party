@@ -1,7 +1,12 @@
 package context
 
-import "github.com/jackc/pgx/v4"
+import (
+	"sync"
+
+	"github.com/jackc/pgx/v4"
+)
 
 type Context struct {
+	sync.Mutex
 	DB *pgx.Conn
 }

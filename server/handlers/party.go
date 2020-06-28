@@ -65,6 +65,10 @@ func Party(c cxt.Context) http.HandlerFunc {
 
 func JoinParty(c cxt.Context) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		// prevent the data race to join party more than its capacity
+		c.Lock()
+		defer c.Unlock()
+
 		accountID, err := GetAccountID(r)
 		if err != nil {
 			w.WriteHeader(http.StatusUnauthorized)
@@ -145,9 +149,15 @@ func CreateParty(c cxt.Context) http.HandlerFunc {
 	const LIMIT_CAPACITY = 10
 
 	return func(w http.ResponseWriter, r *http.Request) {
+		accountID, err := GetAccountID(r)
+		if err != nil {
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+
 		decoder := json.NewDecoder(r.Body)
 		var req Request
-		err := decoder.Decode(&req)
+		err = decoder.Decode(&req)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
@@ -155,12 +165,6 @@ func CreateParty(c cxt.Context) http.HandlerFunc {
 
 		if req.Capacity < 2 || req.Capacity > LIMIT_CAPACITY {
 			w.WriteHeader(http.StatusBadRequest)
-			return
-		}
-
-		accountID, err := GetAccountID(r)
-		if err != nil {
-			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
 

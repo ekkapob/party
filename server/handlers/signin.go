@@ -22,6 +22,7 @@ func Signin(c cxt.Context) http.HandlerFunc {
 		RefreshToken string `json:"refresh_token"`
 		Exp          int64  `json:"exp"`
 	}
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		decoder := json.NewDecoder(r.Body)
 		var req Request
@@ -61,6 +62,7 @@ func Signin(c cxt.Context) http.HandlerFunc {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
+
 		refreshToken, err := auth.CreateToken(id, refreshTokenExpAt)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
